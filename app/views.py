@@ -53,15 +53,6 @@ def upload():
     return render_template('upload.html', form = photoform )
 
 
-@app.route('/files')
-def files():
-    if not session.get('logged_in'):
-        abort(401)
-
-    image_list = get_uploaded_images()
-
-    return render_template('files.html', images = image_list)
-
 
 #helper function which iterates over the contents of the uploads folder and returns the filenames in a list 
 def get_uploaded_images():
@@ -80,6 +71,15 @@ def get_uploaded_images():
 def get_image(filename):
     return send_from_directory(os.path.join(os.getcwd(),app.config['UPLOAD_FOLDER']), filename)
 
+
+@app.route('/files')
+def files():
+    if not session.get('logged_in'):
+        abort(401)
+
+    image_list = get_uploaded_images()
+
+    return render_template('files.html', images = image_list)
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -106,7 +106,6 @@ def logout():
 ###
 # The functions below should be applicable to all Flask apps.
 ###
-
 # Flash errors from the form if validation fails
 def flash_errors(form):
     for field, errors in form.errors.items():
@@ -115,6 +114,8 @@ def flash_errors(form):
                 getattr(form, field).label.text,
                 error
 ), 'danger')
+
+
 
 @app.route('/<file_name>.txt')
 def send_text_file(file_name):
@@ -134,11 +135,10 @@ def add_header(response):
     return response
 
 
+
 @app.errorhandler(404)
 def page_not_found(error):
     """Custom 404 page."""
     return render_template('404.html'), 404
-
-
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port="8080")
