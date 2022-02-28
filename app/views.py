@@ -52,21 +52,6 @@ def upload():
         return redirect(url_for('home'))
     return render_template('upload.html', form = photoform )
 
-def get_uploaded_images():
-    import os
-    rootdir = os.getcwd()
-    file_list = []
-    for subdir, dirs, files in os.walk(rootdir + '/uploads'):
-        for file in files:
-            file_list.append(os.path.join(file))
-    return file_list
-
-
-@app.route('/uploads/<filename>')
-def get_image(filename):
-    #send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), filename)
-    return send_from_directory(os.path.join(os.getcwd(),app.config['UPLOAD_FOLDER']), filename)
-
 
 @app.route('/files')
 def files():
@@ -77,6 +62,23 @@ def files():
 
     return render_template('files.html', images = image_list)
 
+
+#helper function which iterates over the contents of the uploads folder and returns the filenames in a list 
+def get_uploaded_images():
+    import os
+    rootdir = os.getcwd()
+    file_list = []
+
+    for subdir, dirs, files in os.walk(rootdir + '/uploads'):
+        for file in files:
+            file_list.append(os.path.join(file))
+    return file_list
+
+
+
+@app.route('/uploads/<filename>')
+def get_image(filename):
+    return send_from_directory(os.path.join(os.getcwd(),app.config['UPLOAD_FOLDER']), filename)
 
 
 

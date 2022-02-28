@@ -1,3 +1,31 @@
 body {
     padding-top: 5rem;
 }
+
+.page-header{
+    margin-bottom: 30px;
+}
+
+.upload-image{
+    margin-bottom: 25px;
+}
+
+.image_heading{
+    margin-bottom: 30px;
+}
+
+.image_grid img{
+    height: 240px;
+    width: 250px;
+}
+
+.image_grid{
+    display: grid;
+    /*grid-template-columns: 1fr 1fr 1fr;*/
+    grid-template-areas: "box1 box2 box3"
+                         "box4 box4 box6";
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 40px;
+}
